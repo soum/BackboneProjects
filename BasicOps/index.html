@@ -5,12 +5,17 @@
 </head>
 <body>
 	<div class="container">
-		<h1>Hello there my friend</h1>
 		<div class="page"></div>
 	</div>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.1/backbone-min.js"></script>
+
+	<script type="text/template" id="user-list-template">
+	<h1>Template test</h1>
+
+	</script>
+
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.1/backbone-min.js"></script>
 
 <script>
 	
@@ -18,28 +23,37 @@
   		options.url = 'http://backbone-beginner.herokuapp.com' + options.url;
 	});
 
-	var Users = backbone.Collection.extend({
+	var Users = Backbone.Collection.extend({
 		url: '/users'
 	});
 
-	var UserList = backbone.View.extend({
+	var UserList = Backbone.View.extend({
 		el: '.page',
 		render: function(){
 			var that = this;
 			var users = new Users();
 			users.fetch({
-				success: function(){
-					that.$el.html('Content goes here')
+				success: function(users){
+					var template = _.template($('#user-list-template').html(), {users: users.models});
+					that.$el.html(template)
 				}
 			})
 		}
 	})
 
-	var Router = backbone.Router.extend({
+	var Router = Backbone.Router.extend({
 		routes : {
 			'' : 'home'
 		}
-	})
+	});
+
+	var userList = new UserList();
+	var router = new Router();
+	router.on('route: home', function(){
+		userList.render();
+	});
+
+	Backbone.history.start();
 </script>
 
 </body>
