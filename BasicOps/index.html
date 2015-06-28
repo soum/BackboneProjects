@@ -18,6 +18,23 @@
   		options.url = 'http://backbone-beginner.herokuapp.com' + options.url;
 	});
 
+	var Users = backbone.Collection.extend({
+		url: '/users'
+	});
+
+	var UserList = backbone.View.extend({
+		el: '.page',
+		render: function(){
+			var that = this;
+			var users = new Users();
+			users.fetch({
+				success: function(){
+					that.$el.html('Content goes here')
+				}
+			})
+		}
+	})
+
 	var Router = backbone.Router.extend({
 		routes : {
 			'' : 'home'
