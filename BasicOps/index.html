@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>BackboneTutorials.com Beginner Video</title>
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/css/bootstrap.min.css">
 </head>
 <body>
@@ -20,6 +19,7 @@
   <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
 
   <script type="text/template" id="user-list-template">
+    
     <a href="#/new" class="btn btn-primary">New</a>
     <hr />
     <table class="table striped">
@@ -63,12 +63,11 @@
     function htmlEncode(value){
       return $('<div/>').text(value).html();
     }
-
     $.fn.serializeObject = function() {
       var o = {};
       var a = this.serializeArray();
       $.each(a, function() {
-          if (!!o[this.name]) {
+          if (o[this.name] !== undefined) {
               if (!o[this.name].push) {
                   o[this.name] = [o[this.name]];
               }
@@ -79,19 +78,15 @@
       });
       return o;
     };
-
     $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
       options.url = 'http://backbone-beginner.herokuapp.com' + options.url;
     });
-
     var Users = Backbone.Collection.extend({
       url: '/users'
     });
-
     var User = Backbone.Model.extend({
       urlRoot: '/users'
     });
-
     var UserListView = Backbone.View.extend({
       el: '.page',
       render: function () {
@@ -105,7 +100,6 @@
         })
       }
     });
-
     var userListView = new UserListView();
     var UserEditView = Backbone.View.extend({
       el: '.page',
