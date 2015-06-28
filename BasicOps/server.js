@@ -1,4 +1,5 @@
-//var my_http = require('http');
+
+
 var fs = require('fs');
 fs.readFile('index.html', function (err, html) {
 	var sys = require("sys"),
@@ -7,7 +8,7 @@ fs.readFile('index.html', function (err, html) {
         throw err; 
     } 
 	my_http.createServer(function(request,response){
-	    //sys.puts("I got kicked");
+	    //writing response
 	    response.writeHeader(200, {"Content-Type": "text/html"});
 	    response.write(html); 
 	    response.end();
